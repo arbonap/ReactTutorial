@@ -1,29 +1,46 @@
 var Greeter = React.createClass({
     getDefaultProps: function() {
         return {
-            name: 'React'
+            name: 'React',
+            message: 'This is a default message'
         };
     },
+    getInitialState: function () {
+        return {
+            name: this.props.name
+        };
+    },
+
+    onButtonClick: function(e) {
+        e.preventDefault();
+
+        var name = this.refs.name.value;
+
+        this.setState({
+            name: name
+        });
+    },
     render: function () {
-        var name = this.props.name;
+        var name = this.state.name;
         var message = this.props.message;
 
         return (
             <div>
                 <h1>Hello {name}!</h1>
                 <p>{message + '!!'}</p>
+
+                <form onSubmit={this.onButtonClick}>
+                    <input type="text" ref="name"/>
+                    <button>Set Name</button>
+                </form>
             </div>
            );
-        // return React.createElement(
-        //     'h1',
-        //     null,
-        //     'Hello React.createElement')
         }
     });
 
 var firstName = 'Patricia';
 
 ReactDOM.render(
-            <Greeter name={firstName} message="Message from prop!"/>,
+            <Greeter name={firstName}/>,
             document.getElementById('app')
             );
